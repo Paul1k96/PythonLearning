@@ -72,7 +72,7 @@ def cd():
             print('Ответ "a" или "b": ')
             continue
 
-def lng():
+def l():
     while True:
         a = input()
         if a == 'ru' or a == 'RU':
@@ -85,8 +85,8 @@ def lng():
 
 print('Шифрование(a) или дешифрование(b)? ')
 code_decode = cd()
-print('Алфавит русский или английский (ru или eng)? ')
-lang = lng()
+print('Алфавит русский или английский (ru или en)? ')
+lang = l()
 if code_decode =='a':
     print('Какой шаг сдвига(число, цифра)? ')
     step = dig()
@@ -94,4 +94,6 @@ else:
     print('Какой шаг был при шифровании? ')
     step = dig()
 text = input('Введите текст: ')
+#for i in range(1, 26):
+#    step = i
 print(caesar_cipher(code_decode, lang, step, text))
