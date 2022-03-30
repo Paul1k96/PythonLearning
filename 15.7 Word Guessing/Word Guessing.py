@@ -1,13 +1,15 @@
 def get_word():
     from random import randrange
-    word_list = ['ЧЕЛОВЕК', 'ЖИВОТНОЕ', 'КОМПЬЮТЕР', 'КАБЕЛЬ', 'ЭТАНОЛ', 'АЛЬБАТРОС']
+    word_list = ['ЧЕЛОВЕК', 'ЖИВОТНОЕ', 'КОМПЬЮТЕР', 'КАБЕЛЬ', 'ЭТАНОЛ', 'АЛЬБАТРОС', 'КОЛЛАЙДЕР']
     n = word_list[randrange(len(word_list))]
     return n
 
-def check_cycle(a, b):
+def check_cycle(a, b, c):
+    a = list(a)
     for i in range(len(a)):
-        if b == a[i]:
+        if b == c[i]:
             a[i] = b
+    a = ''.join(a)
     return a
 
 def display_hangman(tries):
@@ -84,22 +86,43 @@ def display_hangman(tries):
           ]
     return stages[tries]
 
+def yes_no():
+    print('Хотите ещё раз сыграть? "Да" или "Нет":')
+    while True:
+        a = input().lower()
+        if a == 'нет' or a == 'да':
+            return a
+        else:
+            print('Не понимаю. Введите пожалуйста "Да" или "Нет": ')
+
 def play(word, hide_word, tries):
     while True:
-        try_guess = input()
-        if try_guess in word:
-            hide_word = check_cycle(hide_word, try_guess)
-            print('Правильно! Оставшиеся буквы:', hide_word)
+        if hide_word == word:
+            print('Вы угадали слово!')
+            y_n = yes_no()
+            if y_n == 'нет':
+                return 'нет'
+            else:
+                break
+
+        try_guess = input().upper()
+        if try_guess in hide_word:
+            print('Эта буква уже есть в списке! Попробуй ещё раз.')
+            continue
+        if try_guess in word and try_guess not in hide_word:
+            hide_word = check_cycle(hide_word, try_guess, word)
+            print('Правильно! Оставшееся слово:', hide_word)
         else:
             tries -= 1
-            print('Не верно!')
+            print('Не верно! Оставшееся слово:', hide_word)
             print(display_hangman(tries))
-            if tries < 0:
+            if tries < 1:
                 print('Загаданное слово:', word)
-                print('Хотите ещё раз сыграть? "Да" или "Нет":')
-                yes_no = input()
-                if yes_no == 'нет':
+                y_n = yes_no()
+                if y_n == 'нет':
                     return 'нет'
+                else:
+                    break
 
 
 
@@ -109,11 +132,12 @@ print('Добро пожаловать в игру "Виселица". В дан
 while True:
     tries = 6
     word = get_word()
+    print(word)
     hide_word = ''.join(list(word[0]) + ['_' for i in range(1, len(word) - 1)] + list(word[-1]))
     print('Начальная позиция виселицы:', display_hangman(tries), sep='\n')
     print('Угадаешь остальные буквы слова?')
-    yes_no = play(word, hide_word, tries)
-    if yes_no == 'нет':
+    ansr = play(word, hide_word, tries)
+    if ansr == 'нет':
         break
 
 print('Спасибо за игру!')
