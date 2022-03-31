@@ -1,6 +1,26 @@
 def get_word():
     from random import randrange
-    word_list = ['ЧЕЛОВЕК', 'ЖИВОТНОЕ', 'КОМПЬЮТЕР', 'КАБЕЛЬ', 'ЭТАНОЛ', 'АЛЬБАТРОС', 'КОЛЛАЙДЕР']
+    cat1 = ['Животный мир','ЧЕЛОВЕК', 'ЖИВОТНОЕ', 'ЖИРАФ', 'КОАЛА', 'ЛЕОПАРД', 'АЛЬБАТРОС', 'КАМБАЛА']
+    cat2 = ['Технологии','ПРОЦЕССОР', 'МОНИТОР', 'КОМПЬЮТЕР', 'КАБЕЛЬ', 'РОУТЕР', 'СМАРТФОН', 'КОЛЛАЙДЕР']
+    cat3 = ['Химия','КРЕМНИЙ', 'РЕЗИНА', 'БЕНЗИН', 'МЕТАНОЛ', 'ЭТАНОЛ', 'УРАН', 'ПЛАСТИК']
+    cat4 = ['Растения','РОМАШКА', 'ФИАЛКА', 'БАОБАБ', 'БЕРЁЗА', 'АЛОЭ', 'КЛЁН', 'ЧЕРЕШНЯ']
+
+    while True:
+        cat = input(f'Выберите категорию. {cat1[0]}(1), {cat2[0]}(2), {cat3[0]}(3), {cat4[0]}(4): ').upper()
+        if cat == '1':
+            word_list = cat1[1:]
+            break
+        elif cat == '2':
+            word_list = cat2[1:]
+            break
+        elif cat == '3':
+            word_list = cat3[1:]
+            break
+        elif cat == '4':
+            word_list = cat4[1:]
+            break
+        else:
+            print('Не понимаю.')
     n = word_list[randrange(len(word_list))]
     return n
 
@@ -106,10 +126,10 @@ def play(word, hide_word, tries):
                 break
 
         try_guess = input().upper()
-        if try_guess in hide_word:
+        if try_guess in hide_word[1:len(hide_word)-1]:
             print('Эта буква уже есть в списке! Попробуй ещё раз.')
             continue
-        if try_guess in word and try_guess not in hide_word:
+        elif try_guess in word and try_guess not in hide_word[1:len(hide_word)-1]:
             hide_word = check_cycle(hide_word, try_guess, word)
             print('Правильно! Оставшееся слово:', hide_word)
         else:
